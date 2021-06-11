@@ -1,0 +1,57 @@
+/* 기본 처리 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #1f1f1f;
+    /*우리가 작성할 컨텐츠가 수직,수평 중앙에 올수 있도록 설정*/
+    display: flex;
+    justify-content: center; /*수평*/
+    align-items: center;  /*수직*/
+    height: 100vh; /* 높이-> 웹 브라우저의 높이만큼 */
+}
+.container{
+    /*일반적으로 3d 를 제대로 느끼기 위하여 원근감을 줘야 하는데 
+    원근감은 perserve-3d속성값을 준 태그의 부모태그에 주는 것이 일반적*/
+    perspective: 1000px; /*카메라의 위치 설정 */   
+}
+.cube{
+    width:128px;
+    height: 128px;
+    /*3d사용 을 위한 속성 : 하위태그들은 모두 3d공간에 배치된다. z축!*/
+    transform-style: preserve-3d;
+    /* 제대로 각 면들이 배치가 되었나 확인하는 용도 */
+    transform: rotatex(0deg);
+    /*회전 에니메이션 효과*/
+    transition: all 0.5s;
+}
+/* cube 태그 밑의 모든 img 태그들이 큐브 형태를 만들기 위해서는 위치가 같아야 하기 때문에 
+position 속성을 준다. */
+.cube img{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+/* 이제 큐브 형태를 만들기 위해서는 실제로 큐브 모양을 생각해보자 
+현재 4개의 면이 모두 겹쳐진 상태이니 이들을 적절히 이동/회전하여 각각 윗면,앞면,뒷면,아랫면으로 배치해야한다. */
+/* 회전을 X축으로만 확인할 것이기에 옆면은 따로 안 만들었음 -> 이후 필요시 추가적으로 만든다 옆면을 쓰기 위해서는 결국 Y축 과관련된 회전 기능이 필요할 것 */
+/*트위터 이미지를 윗면 으로 : x축 90 도 회전->Z축으로 64px(이미지 크기의 반절) */
+.cube img:nth-child(2){
+    transform: rotatex(90deg) translateZ(64px);
+}
+/*페이스북 이미지 : 앞면 으로 해야 하므로 앞으로 옮겨줘야 한다. */ 
+.cube img:nth-child(1){
+    transform:translatez(64px);
+}
+/*유튜브 이미지 : 뒷면 으로 배치해야 하므로 X축 기준 180도 회전. */
+.cube img:nth-child(3){
+    transform: rotateX(180deg) translateZ(64px);
+    /*180도 회전후 뒷쪽에 놔야 하기 때문에 제어축(Z축으로 -이동) */
+}
+/* 인스타그램 이미지 : 밑면으로 배치해야 하므로 X축 기준 270도회전 */
+.cube img:nth-child(4){
+    transform: rotateX(270deg)  translateZ(64px);
+}
